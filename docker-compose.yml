@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  serveur:
+    build: ./serveur
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/DBLP?replicaSet=myReplicaSet&retryWrites=true&w=majority
+    networks:
+      - mongoCluster
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - mongoCluster
+
+networks:
+  mongoCluster:
+    external: true
